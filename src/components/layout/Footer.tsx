@@ -25,7 +25,7 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
 
         {/* Dedication */}
         <p className="text-slate-400 text-xs flex items-center justify-center gap-1">
-          <span>{lang === 'ne' ? 'काठमाडौं, ललितपुर, भक्तपुर र पोखराका मेहनती दाइहरूलाई समर्पित' : 'Dedicated to the hardworking technicians across Nepal'}</span>
+          <span>{lang === 'ne' ? 'विराटनगर, दुहबी र इटहरीका मेहनती दाइहरूलाई समर्पित' : 'Dedicated to the hardworking technicians of Biratnagar, Duhabi & Morang'}</span>
           <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline" />
         </p>
 

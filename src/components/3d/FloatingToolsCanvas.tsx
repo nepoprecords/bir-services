@@ -14,8 +14,8 @@ export const FloatingToolsCanvas: React.FC = () => {
     // Camera
     const width = container.clientWidth;
     const height = container.clientHeight;
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-    camera.position.z = 12;
+    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+    camera.position.z = 14;
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({
@@ -26,135 +26,115 @@ export const FloatingToolsCanvas: React.FC = () => {
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
+    renderer.toneMappingExposure = 1.0;
     container.appendChild(renderer.domElement);
 
-    // Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    // Subtle Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0xff6b00, 2.5); // Bir Orange key light
-    dirLight1.position.set(5, 5, 5);
-    scene.add(dirLight1);
+    const keyLight = new THREE.PointLight(0xff6b00, 2.5, 30);
+    keyLight.position.set(6, 4, 8);
+    scene.add(keyLight);
 
-    const dirLight2 = new THREE.DirectionalLight(0x38bdf8, 2.0); // Electric Cyan rim light
-    dirLight2.position.set(-5, -5, 2);
-    scene.add(dirLight2);
+    const fillLight = new THREE.PointLight(0x38bdf8, 1.8, 30);
+    fillLight.position.set(-6, -4, 6);
+    scene.add(fillLight);
 
-    const pointLight = new THREE.PointLight(0xffb800, 3, 20); // Warm Gold spark light
-    pointLight.position.set(0, 0, 4);
-    scene.add(pointLight);
+    // Group for elegant background elements
+    const bgGroup = new THREE.Group();
+    scene.add(bgGroup);
 
-    // Group of floating objects
-    const toolsGroup = new THREE.Group();
-    scene.add(toolsGroup);
-
-    // Materials
-    const goldMetalMat = new THREE.MeshStandardMaterial({
-      color: 0xffb800,
-      metalness: 0.85,
+    // Sleek metallic materials with subtle reflection
+    const darkChromeMat = new THREE.MeshStandardMaterial({
+      color: 0x334155,
+      metalness: 0.9,
       roughness: 0.25,
+      wireframe: true,
     });
 
-    const chromeMat = new THREE.MeshStandardMaterial({
-      color: 0xe2e8f0,
-      metalness: 0.95,
-      roughness: 0.15,
-    });
-
-    const orangeMat = new THREE.MeshStandardMaterial({
-      color: 0xff6b00,
+    const subtleGoldMat = new THREE.MeshStandardMaterial({
+      color: 0xffb800,
+      metalness: 0.8,
       roughness: 0.3,
-      metalness: 0.5,
+      transparent: true,
+      opacity: 0.5,
+      wireframe: false,
     });
 
-    const glowMat = new THREE.MeshStandardMaterial({
-      color: 0xffde59,
-      emissive: 0xff8c00,
-      emissiveIntensity: 0.6,
-      roughness: 0.2,
-    });
+    // 1. Subtle Geodesic Wireframe Spheres on outer flanks (far in the background)
+    const sphereGeo = new THREE.IcosahedronGeometry(2.2, 1);
+    const leftGlobe = new THREE.Mesh(sphereGeo, darkChromeMat);
+    leftGlobe.position.set(-7.5, 1.5, -4);
+    bgGroup.add(leftGlobe);
 
-    // 1. Gears / Cogwheels (representing mechanics & engineering)
-    const gearGeo = new THREE.TorusGeometry(1.2, 0.35, 16, 32);
-    const gear1 = new THREE.Mesh(gearGeo, goldMetalMat);
-    gear1.position.set(3.2, 1.8, -2);
-    gear1.rotation.x = Math.PI / 4;
-    toolsGroup.add(gear1);
+    const rightGlobe = new THREE.Mesh(sphereGeo, darkChromeMat);
+    rightGlobe.position.set(7.5, -1.8, -4);
+    bgGroup.add(rightGlobe);
 
-    const smallGearGeo = new THREE.TorusGeometry(0.7, 0.2, 16, 24);
-    const gear2 = new THREE.Mesh(smallGearGeo, chromeMat);
-    gear2.position.set(-3.5, -1.5, -1);
-    toolsGroup.add(gear2);
+    // 2. Delicate floating rings at the edges (never intersecting center content)
+    const ringGeo = new THREE.TorusGeometry(1.6, 0.04, 16, 64);
+    const leftRing = new THREE.Mesh(ringGeo, subtleGoldMat);
+    leftRing.position.set(-6.5, -2.5, -2);
+    leftRing.rotation.x = Math.PI / 3;
+    bgGroup.add(leftRing);
 
-    // 2. Hexagonal Nuts (Fasteners / Construction)
-    const nutGeo = new THREE.CylinderGeometry(0.7, 0.7, 0.4, 6);
-    const nut1 = new THREE.Mesh(nutGeo, chromeMat);
-    nut1.position.set(-2.8, 2.2, 0);
-    nut1.rotation.x = Math.PI / 3;
-    nut1.rotation.y = Math.PI / 6;
-    toolsGroup.add(nut1);
+    const rightRing = new THREE.Mesh(ringGeo, subtleGoldMat);
+    rightRing.position.set(6.8, 2.8, -2);
+    rightRing.rotation.y = Math.PI / 4;
+    bgGroup.add(rightRing);
 
-    const nut2 = new THREE.Mesh(nutGeo, orangeMat);
-    nut2.position.set(2.6, -2.2, 1);
-    nut2.scale.set(0.7, 0.7, 0.7);
-    toolsGroup.add(nut2);
-
-    // 3. Electric Spark / Energy Torus (Electrical)
-    const coilGeo = new THREE.TorusKnotGeometry(0.8, 0.25, 64, 16, 2, 3);
-    const coil = new THREE.Mesh(coilGeo, glowMat);
-    coil.position.set(0, -3.2, -2.5);
-    coil.scale.set(0.65, 0.65, 0.65);
-    toolsGroup.add(coil);
-
-    // 4. Floating Spark Particles (Sparks from welding / repairs)
-    const particleCount = 45;
+    // 3. 120+ Micro Spark Particles (welding sparks / kinetic energy floating upwards)
+    const particleCount = 140;
     const particleGeometry = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
-    const particleVelocities: { x: number; y: number; z: number }[] = [];
+    const particleScales = new Float32Array(particleCount);
+    const particleSpeed: { x: number; y: number; z: number }[] = [];
 
     for (let i = 0; i < particleCount; i++) {
-      particlePositions[i * 3] = (Math.random() - 0.5) * 14;
-      particlePositions[i * 3 + 1] = (Math.random() - 0.5) * 10;
-      particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 8;
+      particlePositions[i * 3] = (Math.random() - 0.5) * 18;
+      particlePositions[i * 3 + 1] = (Math.random() - 0.5) * 14;
+      particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 8 - 2;
 
-      particleVelocities.push({
-        x: (Math.random() - 0.5) * 0.008,
-        y: Math.random() * 0.015 + 0.005,
-        z: (Math.random() - 0.5) * 0.008,
+      particleScales[i] = Math.random() * 0.08 + 0.04;
+
+      particleSpeed.push({
+        x: (Math.random() - 0.5) * 0.004,
+        y: Math.random() * 0.012 + 0.004,
+        z: (Math.random() - 0.5) * 0.004,
       });
     }
 
     particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
     const particleMaterial = new THREE.PointsMaterial({
       color: 0xffa500,
-      size: 0.12,
+      size: 0.07,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.65,
       blending: THREE.AdditiveBlending,
     });
     const particles = new THREE.Points(particleGeometry, particleMaterial);
     scene.add(particles);
 
-    // Mouse & Scroll interaction
+    // Smooth lerp scrolling & cursor physics (100+ FPS buttery smooth)
+    let currentScroll = 0;
+    let targetScroll = 0;
     let mouseX = 0;
     let mouseY = 0;
-    let targetX = 0;
-    let targetY = 0;
-    let scrollSpeed = 0;
-    let lastScrollY = window.scrollY;
+    let targetMouseX = 0;
+    let targetMouseY = 0;
 
-    const handleMouseMove = (event: MouseEvent) => {
+    const handleMouseMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
       mouseX = (x / width) * 2 - 1;
       mouseY = -(y / height) * 2 + 1;
     };
 
-    const handleTouchMove = (event: TouchEvent) => {
-      if (event.touches.length > 0) {
-        const touch = event.touches[0];
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
         const rect = container.getBoundingClientRect();
         mouseX = ((touch.clientX - rect.left) / width) * 2 - 1;
         mouseY = -((touch.clientY - rect.top) / height) * 2 + 1;
@@ -162,71 +142,58 @@ export const FloatingToolsCanvas: React.FC = () => {
     };
 
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      scrollSpeed = Math.abs(currentScrollY - lastScrollY) * 0.05;
-      lastScrollY = currentScrollY;
+      targetScroll = window.scrollY * 0.002;
     };
 
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
     window.addEventListener('scroll', handleScroll, { passive: true });
 
-    // Animation Loop
+    // Animation Loop with clock delta
     let animId: number;
-    let clock = new THREE.Clock();
+    const clock = new THREE.Clock();
 
     const animate = () => {
       animId = requestAnimationFrame(animate);
+      const delta = clock.getDelta();
       const elapsedTime = clock.getElapsedTime();
 
-      // Smooth mouse follow
-      targetX += (mouseX - targetX) * 0.05;
-      targetY += (mouseY - targetY) * 0.05;
+      // Smooth lerp interpolation for 60-120fps buttery motion
+      currentScroll += (targetScroll - currentScroll) * 0.08;
+      targetMouseX += (mouseX - targetMouseX) * 0.05;
+      targetMouseY += (mouseY - targetMouseY) * 0.05;
 
-      toolsGroup.rotation.y = targetX * 0.4 + elapsedTime * (0.15 + scrollSpeed * 0.5);
-      toolsGroup.rotation.x = -targetY * 0.3 + Math.sin(elapsedTime * 0.5) * 0.08;
+      // Rotate group gently in response to scroll & cursor
+      bgGroup.rotation.y = targetMouseX * 0.25 + elapsedTime * 0.05 + currentScroll * 0.4;
+      bgGroup.rotation.x = -targetMouseY * 0.15 + Math.sin(elapsedTime * 0.3) * 0.04;
 
-      // Individual object rotations & bobbing
-      gear1.rotation.z += 0.015;
-      gear1.position.y = 1.8 + Math.sin(elapsedTime * 1.5) * 0.25;
+      // Outer globes rotate on their own axis
+      leftGlobe.rotation.y += 0.003;
+      leftGlobe.rotation.x += 0.002;
+      rightGlobe.rotation.y -= 0.003;
+      rightGlobe.rotation.x -= 0.002;
 
-      gear2.rotation.z -= 0.02;
-      gear2.position.y = -1.5 + Math.cos(elapsedTime * 1.8) * 0.2;
+      leftRing.rotation.z += 0.005;
+      rightRing.rotation.z -= 0.005;
 
-      nut1.rotation.y += 0.01;
-      nut1.rotation.x += 0.015;
-      nut1.position.y = 2.2 + Math.sin(elapsedTime * 2.0) * 0.15;
-
-      nut2.rotation.y -= 0.015;
-      nut2.position.y = -2.2 + Math.cos(elapsedTime * 1.4) * 0.2;
-
-      coil.rotation.x += 0.02;
-      coil.rotation.y += 0.025;
-      coil.position.y = -3.2 + Math.sin(elapsedTime * 1.2) * 0.2;
-
-      // Spark particles drift upwards
+      // Particle upward flow
       const positions = particleGeometry.attributes.position.array as Float32Array;
       for (let i = 0; i < particleCount; i++) {
-        positions[i * 3 + 1] += particleVelocities[i].y + scrollSpeed * 0.02;
-        positions[i * 3] += particleVelocities[i].x;
+        positions[i * 3 + 1] += particleSpeed[i].y + currentScroll * 0.02;
+        positions[i * 3] += particleSpeed[i].x;
 
-        // Reset if float out of top bound
-        if (positions[i * 3 + 1] > 6) {
-          positions[i * 3 + 1] = -6;
-          positions[i * 3] = (Math.random() - 0.5) * 12;
+        if (positions[i * 3 + 1] > 8) {
+          positions[i * 3 + 1] = -8;
+          positions[i * 3] = (Math.random() - 0.5) * 18;
         }
       }
       particleGeometry.attributes.position.needsUpdate = true;
-
-      // Decay scroll speed
-      scrollSpeed *= 0.92;
 
       renderer.render(scene, camera);
     };
 
     animate();
 
-    // Resize Handler
     const handleResize = () => {
       if (!container) return;
       const newWidth = container.clientWidth;
@@ -248,14 +215,11 @@ export const FloatingToolsCanvas: React.FC = () => {
         container.removeChild(renderer.domElement);
       }
       renderer.dispose();
-      gearGeo.dispose();
-      nutGeo.dispose();
-      coilGeo.dispose();
+      sphereGeo.dispose();
+      ringGeo.dispose();
       particleGeometry.dispose();
-      goldMetalMat.dispose();
-      chromeMat.dispose();
-      orangeMat.dispose();
-      glowMat.dispose();
+      darkChromeMat.dispose();
+      subtleGoldMat.dispose();
       particleMaterial.dispose();
     };
   }, []);
@@ -263,7 +227,7 @@ export const FloatingToolsCanvas: React.FC = () => {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden opacity-85"
+      className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden opacity-60"
       aria-hidden="true"
     />
   );

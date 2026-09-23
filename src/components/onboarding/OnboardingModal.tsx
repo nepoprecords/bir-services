@@ -35,12 +35,12 @@ export const OnboardingModal: React.FC<OnboardingModalProps> = ({
 
   const [step, setStep] = useState<number>(1);
   const [formData, setFormData] = useState<OnboardingData>({
-    trade: 'electrician',
+    trade: 'ac_repair',
     experienceYears: 4,
     hasOwnTools: true,
     hasVehicle: 'bike',
-    city: 'Kathmandu',
-    hubs: ['कोटेश्वर / बानेश्वर (Koteshwor / Baneshwor)'],
+    city: 'Biratnagar',
+    hubs: ['रोडशेष चोक / मेन रोड (Roadcess / Main Road)'],
     fullName: '',
     phone: '',
     otp: '8848',

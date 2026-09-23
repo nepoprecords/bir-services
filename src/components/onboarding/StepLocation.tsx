@@ -1,7 +1,7 @@
 import React from 'react';
 import { MapPin, CheckCircle } from 'lucide-react';
 import { Language } from '../../types';
-import { VALLEY_HUBS, translations } from '../../i18n/translations';
+import { BIRATNAGAR_HUBS, translations } from '../../i18n/translations';
 
 interface StepLocationProps {
   lang: Language;
@@ -30,7 +30,7 @@ export const StepLocation: React.FC<StepLocationProps> = ({
       </div>
 
       <div className="space-y-2 max-h-[340px] overflow-y-auto pr-1">
-        {VALLEY_HUBS.map((hub) => {
+        {BIRATNAGAR_HUBS.map((hub) => {
           const isSelected = selectedHubs.includes(hub);
           return (
             <button

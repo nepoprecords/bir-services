@@ -36,10 +36,10 @@ export const BirVerifiedCard: React.FC<BirVerifiedCardProps> = ({
 
   const tradeData = TRADES_DATA.find((tr) => tr.id === data.trade) || TRADES_DATA[0];
   const tradeTitle = lang === 'ne' ? tradeData.titleNe : tradeData.titleEn;
-  const hubTitle = data.hubs.length > 0 ? data.hubs[0] : 'काठमाडौं उपत्यका (Kathmandu Valley)';
+  const hubTitle = data.hubs.length > 0 ? data.hubs[0] : 'विराटनगर (Biratnagar)';
 
-  // Generate a random stable-looking Nepali Dai ID
-  const passId = `BIR-DAI-${Math.floor(1000 + Math.random() * 9000)}-KTM`;
+  // Generate a random stable-looking Nepali Dai ID for Biratnagar
+  const passId = `BIR-DAI-${Math.floor(1000 + Math.random() * 9000)}-BRT`;
 
   useEffect(() => {
     // Trigger fanfare audio
@@ -82,8 +82,8 @@ export const BirVerifiedCard: React.FC<BirVerifiedCardProps> = ({
     onPlayClick();
     const shareMessage =
       lang === 'ne'
-        ? `🔥 म अब बीर सर्भिसेज (Bir Services) को आधिकारिक "भेरिफाइड दाई" भएँ! बिजुली, धारा, मोटर वा कुनै सामान मर्मत गर्नु परेमा मलाई सम्झिनुहोस्! पास ID: ${passId}`
-        : `🔥 I just became an official "Verified Dai" on Bir Services! If you need any electrical, plumbing, or repair work done in Kathmandu, hit me up! Pass ID: ${passId}`;
+        ? `🔥 म अब BIR को आधिकारिक "विराटनगर भेरिफाइड दाई" भएँ! AC, कुलर, बिजुली, मोटर वा कुनै सामान मर्मत गर्नु परेमा मलाई सम्झिनुहोस्! पास ID: ${passId}`
+        : `🔥 I just became an official "Verified Dai" on BIR in Biratnagar! If you need any AC, electrical, motor, or repair work done in Biratnagar, contact me! Pass ID: ${passId}`;
     const url = `https://wa.me/?text=${encodeURIComponent(shareMessage)}`;
     window.open(url, '_blank');
   };

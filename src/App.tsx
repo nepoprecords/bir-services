@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Lenis from 'lenis';
 import { useLanguage } from './hooks/useLanguage';
 import { useSoundEffects } from './hooks/useSoundEffects';
 import { Header } from './components/layout/Header';
@@ -26,6 +27,33 @@ export function App() {
 
   const [isOnboardOpen, setIsOnboardOpen] = useState(false);
   const [isMobileFrame, setIsMobileFrame] = useState(false);
+
+  // Smooth inertial scrolling with Lenis
+  useEffect(() => {
+    if (isMobileFrame) return; // Use native scroll inside mockup container
+
+    const lenis = new Lenis({
+      duration: 1.1,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.8,
+    });
+
+    let rafId: number;
+    function raf(time: number) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
+  }, [isMobileFrame]);
 
   const scrollToCalculator = () => {
     const el = document.getElementById('calculator');
