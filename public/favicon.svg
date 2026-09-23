@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="birGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B00"/>
+      <stop offset="100%" stop-color="#FFB800"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="28" fill="#0F172A"/>
+  <rect x="5" y="5" width="90" height="90" rx="23" fill="none" stroke="url(#birGrad)" stroke-width="3"/>
+  <!-- Crossed wrench and lightning symbol -->
+  <path d="M30 65 L48 47 M43 42 L65 20 A8 8 0 0 1 76 31 L54 53" stroke="url(#birGrad)" stroke-width="6" stroke-linecap="round"/>
+  <!-- Lightning bolt -->
+  <polygon points="56,22 34,52 48,52 38,78 68,44 52,44" fill="#FFDE59"/>
+</svg>
