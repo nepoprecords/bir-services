@@ -88,25 +88,8 @@ export const Header: React.FC<HeaderProps> = ({
           </a>
         </nav>
 
-        {/* Right Controls: Minimal, uncrowded */}
+        {/* Right Controls: Clean, spacious, uncrowded */}
         <div className="flex items-center gap-1.5 sm:gap-2">
-          {/* Light / Dark Mode Toggle */}
-          <ThemeToggle
-            theme={theme}
-            onToggle={onToggleTheme}
-            onPlaySound={onPlayClick}
-          />
-
-          {/* Desktop Frame Switcher (Hidden on Mobile) */}
-          <DeviceFrameToggle
-            isMobileFrame={isMobileFrame}
-            onToggle={onToggleFrame}
-            onPlaySound={onPlayClick}
-          />
-
-          {/* Sound Toggle (Clean Icon) */}
-          <SoundToggle muted={muted} onToggle={onToggleSound} />
-
           {/* Language Toggle (Clean Pill) */}
           <LanguageToggle
             currentLang={lang}
@@ -114,17 +97,15 @@ export const Header: React.FC<HeaderProps> = ({
             onPlaySound={onPlayClick}
           />
 
-          {/* Admin Leads DB quick trigger */}
-          <button
-            onClick={() => {
-              onPlayClick();
-              onOpenAdmin();
-            }}
-            title="View Registered Applicants (DB)"
-            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-xs font-semibold"
-          >
-            <Database className="w-3.5 h-3.5 text-[#FF6B00]" />
-          </button>
+          {/* Light / Dark Mode Toggle */}
+          <ThemeToggle
+            theme={theme}
+            onToggle={onToggleTheme}
+            onPlaySound={onPlayClick}
+          />
+
+          {/* Sound Toggle (Clean Icon) */}
+          <SoundToggle muted={muted} onToggle={onToggleSound} />
 
           {/* Desktop Quick CTA */}
           <button
@@ -132,7 +113,7 @@ export const Header: React.FC<HeaderProps> = ({
               onPlayClick();
               onOpenOnboard();
             }}
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#FF6B00] hover:bg-[#FF7A1A] text-white text-xs font-black shadow-md shadow-orange-950/20 transition-all active:scale-95"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#FF6B00] hover:bg-[#FF7A1A] text-white text-xs font-black shadow-md shadow-orange-950/20 transition-all active:scale-95 ml-1"
           >
             <Zap className="w-3.5 h-3.5 fill-white" />
             <span>{t.nav.joinCta}</span>

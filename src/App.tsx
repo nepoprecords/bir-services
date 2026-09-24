@@ -144,7 +144,7 @@ export function App() {
       </main>
 
       {/* Footer */}
-      <Footer lang={lang} />
+      <Footer lang={lang} onOpenAdmin={() => setIsAdminOpen(true)} />
 
       {/* Sticky Native Mobile Bottom Action Dock */}
       <BottomDock

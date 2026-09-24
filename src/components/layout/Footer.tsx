@@ -1,13 +1,14 @@
 import React from 'react';
-import { Heart, ShieldCheck, MessageCircle, Phone } from 'lucide-react';
+import { Heart, ShieldCheck, MessageCircle, Phone, Database } from 'lucide-react';
 import { Language } from '../../types';
 import { translations } from '../../i18n/translations';
 
 interface FooterProps {
   lang: Language;
+  onOpenAdmin?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ lang }) => {
+export const Footer: React.FC<FooterProps> = ({ lang, onOpenAdmin }) => {
   const t = translations[lang];
 
   return (
@@ -48,6 +49,19 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
         <p className="text-[11px] text-slate-400 dark:text-slate-600">
           © {new Date().getFullYear()} Bir Services Nepal. All rights reserved. ०% Middleman Cut Guarantee.
         </p>
+
+        {/* Discreet Admin DB Access (No consumer clutter) */}
+        {onOpenAdmin && (
+          <div className="pt-2">
+            <button
+              onClick={onOpenAdmin}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-200/80 dark:bg-slate-800 text-[10px] font-bold text-slate-600 dark:text-slate-400 hover:text-[#FF6B00] transition-colors"
+            >
+              <Database className="w-3 h-3 text-[#FF6B00]" />
+              <span>{lang === 'ne' ? 'दर्ता भएका दाइहरूको सूची (Admin DB)' : 'Provider Registry (Admin DB)'}</span>
+            </button>
+          </div>
+        )}
       </div>
     </footer>
   );
