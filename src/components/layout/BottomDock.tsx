@@ -25,7 +25,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.3 }}
-          className="p-2 sm:p-2.5 rounded-2xl sm:rounded-3xl bg-slate-950/95 border border-slate-800 shadow-2xl shadow-black/80 backdrop-blur-2xl flex items-center justify-between gap-3"
+          className="p-2 sm:p-2.5 rounded-2xl sm:rounded-3xl bg-white/95 dark:bg-slate-950/95 border border-slate-200 dark:border-slate-800 shadow-2xl shadow-orange-500/15 dark:shadow-black/80 backdrop-blur-2xl flex items-center justify-between gap-3"
         >
           {/* Live Alert text */}
           <div className="flex items-center gap-2 pl-2">
@@ -34,10 +34,10 @@ export const BottomDock: React.FC<BottomDockProps> = ({
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
             </span>
             <div className="text-left">
-              <span className="text-[10px] text-slate-400 uppercase tracking-wider block font-bold">
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider block font-bold">
                 LIVE GIGS
               </span>
-              <span className="text-xs font-black text-white truncate max-w-[130px] sm:max-w-[170px] block">
+              <span className="text-xs font-black text-slate-900 dark:text-white truncate max-w-[130px] sm:max-w-[170px] block">
                 {t.bottomDock.liveAlert}
               </span>
             </div>

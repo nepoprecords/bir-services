@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Lenis from 'lenis';
 import { useLanguage } from './hooks/useLanguage';
 import { useSoundEffects } from './hooks/useSoundEffects';
+import { useTheme } from './hooks/useTheme';
 import { Header } from './components/layout/Header';
 import { HeroSection } from './components/hero/HeroSection';
+import { NeighborlyServices } from './components/services/NeighborlyServices';
 import { KamaiCalculator } from './components/calculator/KamaiCalculator';
 import { WhyBirSection } from './components/benefits/WhyBirSection';
 import { HowItWorksSection } from './components/benefits/HowItWorksSection';
@@ -11,10 +13,12 @@ import { DaiStoriesSection } from './components/stories/DaiStoriesSection';
 import { Footer } from './components/layout/Footer';
 import { BottomDock } from './components/layout/BottomDock';
 import { OnboardingModal } from './components/onboarding/OnboardingModal';
+import { AdminLeadsDrawer } from './components/admin/AdminLeadsDrawer';
 import { Wifi, BatteryMedium, Signal } from 'lucide-react';
 
 export function App() {
   const { lang, toggleLanguage } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
   const {
     muted,
     toggleMute,
@@ -26,6 +30,7 @@ export function App() {
   } = useSoundEffects();
 
   const [isOnboardOpen, setIsOnboardOpen] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isMobileFrame, setIsMobileFrame] = useState(false);
 
   // Smooth inertial scrolling with Lenis
@@ -62,6 +67,13 @@ export function App() {
     }
   };
 
+  const scrollToServices = () => {
+    const el = document.getElementById('services');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const handleOpenOnboard = () => {
     playPop();
     setIsOnboardOpen(true);
@@ -72,16 +84,19 @@ export function App() {
   };
 
   const appContent = (
-    <div className="min-h-screen bg-[#0B0F19] text-white flex flex-col relative selection:bg-[#FF6B00] selection:text-white">
+    <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0B0F19] text-slate-900 dark:text-white flex flex-col relative transition-colors duration-300 selection:bg-[#FF6B00] selection:text-white">
       {/* Header */}
       <Header
         lang={lang}
         onToggleLanguage={toggleLanguage}
         muted={muted}
         onToggleSound={toggleMute}
+        theme={theme}
+        onToggleTheme={toggleTheme}
         isMobileFrame={isMobileFrame}
         onToggleFrame={() => setIsMobileFrame((prev) => !prev)}
         onOpenOnboard={handleOpenOnboard}
+        onOpenAdmin={() => setIsAdminOpen(true)}
         onPlayClick={playClick}
       />
 
@@ -90,13 +105,23 @@ export function App() {
         {/* 1. Hero Section */}
         <HeroSection
           lang={lang}
+          isDark={theme === 'dark'}
           onOpenOnboard={handleOpenOnboard}
           onScrollToCalc={scrollToCalculator}
+          onScrollToServices={scrollToServices}
           onPlayClick={playClick}
           onPlayPop={playPop}
         />
 
-        {/* 2. Dai Kamai Meter (Calculator) */}
+        {/* 2. Neighborly / Frontdoor Home Services */}
+        <NeighborlyServices
+          lang={lang}
+          onOpenOnboard={handleOpenOnboard}
+          onPlayClick={playClick}
+          onPlayPop={playPop}
+        />
+
+        {/* 3. Dai Kamai Meter (Calculator) */}
         <KamaiCalculator
           lang={lang}
           onOpenOnboard={handleOpenOnboard}
@@ -104,17 +129,17 @@ export function App() {
           onPlayRatchet={playRatchet}
         />
 
-        {/* 3. Why Bir? (Dignity & 0% Commission) */}
+        {/* 4. Why Bir? (Dignity & 0% Commission) */}
         <WhyBirSection lang={lang} onPlayPop={playPop} />
 
-        {/* 4. How It Works (3 Steps) */}
+        {/* 5. How It Works (3 Steps) */}
         <HowItWorksSection
           lang={lang}
           onOpenOnboard={handleOpenOnboard}
           onPlayClick={playClick}
         />
 
-        {/* 5. Dai Stories (Voices of the Birs) */}
+        {/* 6. Dai Stories (Voices of the Birs) */}
         <DaiStoriesSection lang={lang} onPlayClick={playClick} />
       </main>
 
@@ -138,6 +163,13 @@ export function App() {
         onPlayRatchet={playRatchet}
         onPlaySuccess={playSuccess}
         onPlayFanfare={playFanfare}
+      />
+
+      {/* Admin Leads Drawer for viewing registered providers & CSV export */}
+      <AdminLeadsDrawer
+        isOpen={isAdminOpen}
+        onClose={() => setIsAdminOpen(false)}
+        onPlayClick={playClick}
       />
     </div>
   );

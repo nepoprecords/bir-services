@@ -15,6 +15,7 @@ import {
 import { Language, OnboardingData } from '../../types';
 import { TRADES_DATA, translations } from '../../i18n/translations';
 import { TactileButton } from '../ui/TactileButton';
+import { submitProviderApplication } from '../../lib/supabase';
 
 interface BirVerifiedCardProps {
   lang: Language;
@@ -38,12 +39,20 @@ export const BirVerifiedCard: React.FC<BirVerifiedCardProps> = ({
   const tradeTitle = lang === 'ne' ? tradeData.titleNe : tradeData.titleEn;
   const hubTitle = data.hubs.length > 0 ? data.hubs[0] : 'विराटनगर (Biratnagar)';
 
+  const [savedStatus, setSavedStatus] = useState<'saving' | 'saved' | 'idle'>('idle');
+
   // Generate a random stable-looking Nepali Dai ID for Biratnagar
-  const passId = `BIR-DAI-${Math.floor(1000 + Math.random() * 9000)}-BRT`;
+  const [passId] = useState(() => `BIR-DAI-${Math.floor(1000 + Math.random() * 9000)}-BRT`);
 
   useEffect(() => {
     // Trigger fanfare audio
     onPlayFanfare();
+
+    // Persist applicant to Supabase & local database buffer
+    setSavedStatus('saving');
+    submitProviderApplication(data, passId)
+      .then(() => setSavedStatus('saved'))
+      .catch(() => setSavedStatus('idle'));
 
     // Trigger dual cannon celebratory confetti
     const duration = 2.5 * 1000;
@@ -70,7 +79,7 @@ export const BirVerifiedCard: React.FC<BirVerifiedCardProps> = ({
       }
     };
     frame();
-  }, [onPlayFanfare]);
+  }, [onPlayFanfare, data, passId]);
 
   const handleDownload = () => {
     onPlayClick();
@@ -106,6 +115,12 @@ export const BirVerifiedCard: React.FC<BirVerifiedCardProps> = ({
         <p className="text-xs text-slate-400 mt-0.5">
           {t.onboarding.celebration.subtitle}
         </p>
+        {savedStatus === 'saved' && (
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-bold mt-2">
+            <CheckCircle2 className="w-3.5 h-3.5" />
+            <span>{lang === 'ne' ? 'विराटनगर नेटवर्कमा सुरक्षित दर्ता भयो' : 'Synced to Biratnagar verified registry'}</span>
+          </div>
+        )}
       </div>
 
       {/* The 3D Holographic ID Badge Card */}

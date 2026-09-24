@@ -19,14 +19,14 @@ export const HowItWorksSection: React.FC<HowItWorksProps> = ({
   const t = translations[lang];
 
   return (
-    <section className="relative py-12 px-4 bg-slate-950/40">
+    <section className="relative py-14 px-4 bg-slate-100/50 dark:bg-slate-950/40 transition-colors duration-300">
       <div className="max-w-xl mx-auto">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-black uppercase tracking-wider mb-2">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-black uppercase tracking-wider mb-2">
             <CheckCircle2 className="w-3.5 h-3.5" />
             <span>{t.howItWorks.badge}</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
             {t.howItWorks.title}
           </h2>
         </div>
@@ -40,16 +40,16 @@ export const HowItWorksSection: React.FC<HowItWorksProps> = ({
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center gap-4 hover:border-slate-700 transition-all"
+              className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center gap-4 hover:border-slate-300 dark:hover:border-slate-700 transition-all shadow-sm"
             >
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FF6B00] to-[#FFB800] text-slate-950 flex items-center justify-center font-black text-base flex-shrink-0 shadow-lg shadow-orange-950/40">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FF6B00] to-[#FFB800] text-slate-950 flex items-center justify-center font-black text-base flex-shrink-0 shadow-md">
                 {step.num}
               </div>
               <div>
-                <h3 className="text-sm font-bold text-white mb-0.5">
+                <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-0.5">
                   {step.title}
                 </h3>
-                <p className="text-xs text-slate-400 leading-snug">
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-snug">
                   {step.desc}
                 </p>
               </div>
