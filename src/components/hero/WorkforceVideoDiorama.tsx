@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Sparkles, Video, Copy, Check, Eye, Maximize2 } from 'lucide-react';
 import { Language } from '../../types';
@@ -15,6 +15,13 @@ export const WorkforceVideoDiorama: React.FC<WorkforceVideoDioramaProps> = ({
   const [showPromptModal, setShowPromptModal] = useState(false);
   const [copied, setCopied] = useState(false);
   const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  }, []);
 
   const veoPrompt = `Cinematic tilt-shift miniature living diorama of skilled Nepali tradesmen at work in a sunlit Himalayan mountain village, 4k resolution, 60fps. Macro photography with shallow depth of field. A blue-overalled electrician works on a wooden electrical utility pole with small electrical sparks. A roadside motorcycle workshop with a classic Enfield on a lift where a mechanic adjusts the engine. Plumbers install white PVC and copper water pipelines along stone irrigation canals. Skilled carpenters construct the timber frame of a red brick Nepali house with hammers and saws. Slow gentle cinematic camera pan from left to right. Soft warm morning sunlight, prayer flags gently fluttering in the mountain breeze, snow-capped Annapurna peaks in the far background. Highly detailed, photorealistic miniature model style, smooth fluid motion.`;
 
@@ -66,10 +73,12 @@ export const WorkforceVideoDiorama: React.FC<WorkforceVideoDioramaProps> = ({
       <div className="relative aspect-video w-full overflow-hidden group">
         {/* Video tag with image fallback */}
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
+          preload="auto"
           poster="/assets/bir-diorama-hd.jpg"
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
         >
