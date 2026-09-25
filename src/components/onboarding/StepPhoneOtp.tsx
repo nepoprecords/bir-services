@@ -43,17 +43,17 @@ export const StepPhoneOtp: React.FC<StepPhoneOtpProps> = ({
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="text-center">
-        <h3 className="text-xl sm:text-2xl font-black text-white">
+        <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
           {t.onboarding.step4Title}
         </h3>
-        <p className="text-xs sm:text-sm text-slate-400 mt-1">
+        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">
           {t.onboarding.step4Subtitle}
         </p>
       </div>
 
       {/* Name Input */}
       <div>
-        <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+        <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
           {t.onboarding.fullNameLabel}
         </label>
         <div className="relative">
@@ -64,19 +64,23 @@ export const StepPhoneOtp: React.FC<StepPhoneOtpProps> = ({
             value={fullName}
             onChange={(e) => onChangeName(e.target.value)}
             placeholder={t.onboarding.fullNamePlaceholder}
-            className="w-full pl-10 pr-4 py-3 rounded-2xl bg-slate-800/90 border border-slate-700 text-white placeholder-slate-500 text-sm font-semibold focus:outline-none focus:border-[#FF6B00] transition-colors"
+            className="w-full pl-10 pr-4 py-3 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 text-sm font-semibold focus:outline-none focus:border-[#FF6B00] shadow-sm transition-colors"
           />
         </div>
       </div>
 
       {/* Phone Input */}
       <div>
-        <label className="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+        <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
           {t.onboarding.phoneLabel}
         </label>
-        <div className="relative flex">
-          <div className="px-3 py-3 rounded-l-2xl bg-slate-700/80 border border-r-0 border-slate-700 text-xs font-black text-amber-300 flex items-center gap-1">
-            <span>🇳🇵 +977</span>
+        <div className="relative flex shadow-sm">
+          {/* Nepal Code Pill with Clean SVG (Zero Emoji) */}
+          <div className="px-3 py-3 rounded-l-2xl bg-slate-100 dark:bg-slate-700/80 border border-r-0 border-slate-200 dark:border-slate-700 text-xs font-black text-slate-800 dark:text-amber-300 flex items-center gap-1.5">
+            <svg className="w-3.5 h-3.5 text-rose-600" viewBox="0 0 20 20" fill="none">
+              <path d="M4 2v16M4 2l10 5.5-6.5 1.5 6.5 6H4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="currentColor" fillOpacity="0.2" />
+            </svg>
+            <span>+977</span>
           </div>
           <input
             type="tel"
@@ -85,19 +89,19 @@ export const StepPhoneOtp: React.FC<StepPhoneOtpProps> = ({
             value={phone}
             onChange={(e) => onChangePhone(e.target.value)}
             placeholder="98XXXXXXXX"
-            className="w-full px-3 py-3 rounded-r-2xl bg-slate-800/90 border border-slate-700 text-white placeholder-slate-500 text-sm font-bold font-mono tracking-wider focus:outline-none focus:border-[#FF6B00] transition-colors"
+            className="w-full px-3 py-3 rounded-r-2xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 text-sm font-bold font-mono tracking-wider focus:outline-none focus:border-[#FF6B00] transition-colors"
           />
         </div>
       </div>
 
       {/* Instant OTP Simulation */}
-      <div className="p-3.5 rounded-2xl bg-slate-800/60 border border-dashed border-amber-500/40">
+      <div className="p-3.5 rounded-2xl bg-amber-500/5 dark:bg-slate-800/60 border border-dashed border-amber-500/40">
         <div className="flex items-center justify-between text-xs mb-1">
-          <span className="font-bold text-amber-300 flex items-center gap-1">
-            <KeyRound className="w-3.5 h-3.5 text-amber-400" />
+          <span className="font-bold text-amber-600 dark:text-amber-300 flex items-center gap-1">
+            <KeyRound className="w-3.5 h-3.5 text-amber-500" />
             {t.onboarding.otpLabel}
           </span>
-          <span className="text-[10px] bg-emerald-500/20 text-emerald-400 font-mono px-2 py-0.5 rounded-full font-bold">
+          <span className="text-[10px] bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-mono px-2 py-0.5 rounded-full font-bold">
             AUTO-FILLED
           </span>
         </div>
@@ -105,13 +109,13 @@ export const StepPhoneOtp: React.FC<StepPhoneOtpProps> = ({
           type="text"
           value={otp}
           onChange={(e) => onChangeOtp(e.target.value)}
-          className="w-full text-center py-2 rounded-xl bg-slate-900 border border-slate-700 font-mono text-lg font-black tracking-widest text-[#FFB800]"
+          className="w-full text-center py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 font-mono text-lg font-black tracking-widest text-[#FF6B00] dark:text-[#FFB800] shadow-inner"
         />
       </div>
 
       {/* Trust Notice */}
-      <div className="flex items-center gap-2 text-[11px] text-slate-400 py-1">
-        <ShieldCheck className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+      <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400 py-1 font-medium">
+        <ShieldCheck className="w-4 h-4 text-emerald-500 flex-shrink-0" />
         <span>
           {lang === 'ne'
             ? 'तपाईंको फोन नम्बर सुरक्षित छ र कामको सूचना पाउन मात्र प्रयोग हुनेछ।'

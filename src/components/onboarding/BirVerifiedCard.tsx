@@ -91,8 +91,8 @@ export const BirVerifiedCard: React.FC<BirVerifiedCardProps> = ({
     onPlayClick();
     const shareMessage =
       lang === 'ne'
-        ? `🔥 म अब BIR को आधिकारिक "विराटनगर भेरिफाइड दाई" भएँ! AC, कुलर, बिजुली, मोटर वा कुनै सामान मर्मत गर्नु परेमा मलाई सम्झिनुहोस्! पास ID: ${passId}`
-        : `🔥 I just became an official "Verified Dai" on BIR in Biratnagar! If you need any AC, electrical, motor, or repair work done in Biratnagar, contact me! Pass ID: ${passId}`;
+        ? `म अब BIR को आधिकारिक "विराटनगर भेरिफाइड दाई" भएँ! AC, कुलर, बिजुली, मोटर वा कुनै सामान मर्मत गर्नु परेमा मलाई सम्झिनुहोस्! पास ID: ${passId}`
+        : `I just became an official "Verified Dai" on BIR in Biratnagar! If you need any AC, electrical, motor, or repair work done in Biratnagar, contact me! Pass ID: ${passId}`;
     const url = `https://wa.me/?text=${encodeURIComponent(shareMessage)}`;
     window.open(url, '_blank');
   };
@@ -105,14 +105,14 @@ export const BirVerifiedCard: React.FC<BirVerifiedCardProps> = ({
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-          className="inline-flex p-3 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 mb-2"
+          className="inline-flex p-3 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 mb-2"
         >
-          <Sparkles className="w-8 h-8 text-[#FFB800] animate-spin" />
+          <Sparkles className="w-8 h-8 text-[#FF6B00] dark:text-[#FFB800] animate-spin" />
         </motion.div>
-        <h3 className="text-xl sm:text-2xl font-black text-white">
+        <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">
           {t.onboarding.celebration.title}
         </h3>
-        <p className="text-xs text-slate-400 mt-0.5">
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-medium">
           {t.onboarding.celebration.subtitle}
         </p>
         {savedStatus === 'saved' && (
