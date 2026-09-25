@@ -17,7 +17,6 @@ interface Chapter {
   startTime: number;
   endTime: number;
   icon: React.ComponentType<{ className?: string }>;
-  accentColor: string;
 }
 
 const CHAPTERS: Chapter[] = [
@@ -28,9 +27,8 @@ const CHAPTERS: Chapter[] = [
     x: '38%',
     y: '44%',
     startTime: 0.0,
-    endTime: 2.4,
+    endTime: 1.8,
     icon: Zap,
-    accentColor: 'text-amber-400 bg-amber-500/20 border-amber-400/40',
   },
   {
     id: 'motorcycle',
@@ -39,9 +37,8 @@ const CHAPTERS: Chapter[] = [
     x: '20%',
     y: '66%',
     startTime: 2.5,
-    endTime: 4.5,
+    endTime: 4.1,
     icon: Bike,
-    accentColor: 'text-rose-400 bg-rose-500/20 border-rose-400/40',
   },
   {
     id: 'plumbing',
@@ -49,21 +46,19 @@ const CHAPTERS: Chapter[] = [
     nameEn: 'Plumbing & Water Pump',
     x: '50%',
     y: '82%',
-    startTime: 4.6, // 0.5 sec earlier for exact match
-    endTime: 7.2,
+    startTime: 4.6,
+    endTime: 6.6,
     icon: Wrench,
-    accentColor: 'text-cyan-400 bg-cyan-500/20 border-cyan-400/40',
   },
   {
     id: 'carpentry',
-    nameNe: 'सिकर्मी & संरचना',
+    nameNe: 'सिकर्मी & घर संरचना',
     nameEn: 'Carpenters & Framing',
     x: '62%',
     y: '48%',
     startTime: 7.3,
-    endTime: 10.0,
+    endTime: 9.0,
     icon: Hammer,
-    accentColor: 'text-emerald-400 bg-emerald-500/20 border-emerald-400/40',
   },
 ];
 
@@ -97,7 +92,7 @@ export const WorkforceVideoDiorama: React.FC<WorkforceVideoDioramaProps> = ({
     }
   };
 
-  // Loop current chapter within its defined boundary
+  // Loop current chapter within its exact defined boundaries
   const handleTimeUpdate = () => {
     if (!videoRef.current || !isPlaying) return;
     const current = videoRef.current.currentTime;
@@ -113,7 +108,7 @@ export const WorkforceVideoDiorama: React.FC<WorkforceVideoDioramaProps> = ({
       className="relative w-full rounded-3xl overflow-hidden shadow-2xl shadow-orange-500/10 dark:shadow-black/70 border border-slate-200/90 dark:border-slate-800 bg-slate-950"
     >
       <div className="relative aspect-video w-full overflow-hidden group">
-        {/* Video: stays still until user clicks an overlay trade button */}
+        {/* Video: stays still until user clicks an icon */}
         <video
           ref={videoRef}
           muted
@@ -134,11 +129,11 @@ export const WorkforceVideoDiorama: React.FC<WorkforceVideoDioramaProps> = ({
         {/* Ambient Warm Cinematic Vignette */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-black/40 pointer-events-none" />
 
-        {/* Top Minimal Badge */}
-        <div className="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-none">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-white/20 text-white text-[11px] font-black">
+        {/* Top-Left Card: Displays Active Playing Trade Name */}
+        <div className="absolute top-3 left-3 flex items-center pointer-events-none z-20">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-950/85 backdrop-blur-md border border-white/20 text-white text-xs font-black shadow-lg">
             <span
-              className={`w-2 h-2 rounded-full ${
+              className={`w-2.5 h-2.5 rounded-full ${
                 isPlaying ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'
               }`}
             />
@@ -148,19 +143,13 @@ export const WorkforceVideoDiorama: React.FC<WorkforceVideoDioramaProps> = ({
                   ? `बज्दैछ: ${activeChapter.nameNe}`
                   : `Playing: ${activeChapter.nameEn}`
                 : lang === 'ne'
-                ? 'बीर कार्यशाला (क्लिक गरी सुरु गर्नुहोस्)'
-                : 'Bir Diorama (Click trade to play)'}
+                ? 'बीर कार्यशाला (आइकन थिच्नुहोस्)'
+                : 'Bir Diorama (Tap icon to play)'}
             </span>
-          </div>
-
-          <div className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-950/70 backdrop-blur-md text-[10px] text-slate-300 font-mono border border-white/10">
-            <span>{activeChapter.startTime}s</span>
-            <span>-</span>
-            <span>{activeChapter.endTime}s</span>
           </div>
         </div>
 
-        {/* Interactive Overlay Trade Hotspot Buttons Positioned Directly on Video */}
+        {/* Interactive Overlay Trade Icons Positioned Directly on Video (No Text Cards) */}
         {CHAPTERS.map((ch) => {
           const Icon = ch.icon;
           const isActive = ch.id === activeChapterId;
@@ -173,41 +162,32 @@ export const WorkforceVideoDiorama: React.FC<WorkforceVideoDioramaProps> = ({
             >
               <button
                 onClick={() => handleSelectChapter(ch)}
-                className={`group/btn relative flex items-center gap-1.5 px-2.5 py-1.5 rounded-full backdrop-blur-md transition-all duration-300 active:scale-95 shadow-xl ${
-                  isActive
-                    ? 'bg-[#FF6B00] text-white ring-2 ring-white scale-110 shadow-orange-500/50'
-                    : 'bg-slate-950/85 hover:bg-slate-900 text-white border border-white/30 hover:scale-105'
-                }`}
+                aria-label={lang === 'ne' ? ch.nameNe : ch.nameEn}
                 title={lang === 'ne' ? ch.nameNe : ch.nameEn}
+                className={`relative p-2.5 sm:p-3 rounded-full backdrop-blur-md flex items-center justify-center transition-all duration-300 active:scale-95 shadow-xl ${
+                  isActive
+                    ? 'bg-[#FF6B00] text-white ring-2 ring-white scale-125 shadow-orange-500/60'
+                    : 'bg-slate-950/80 hover:bg-slate-900 text-white border border-white/30 hover:scale-115 hover:border-amber-400'
+                }`}
               >
-                {/* Ping ring when active */}
+                {/* Lottie-style Ping Ring when active */}
                 {isActive && (
-                  <span className="absolute -inset-1 rounded-full border-2 border-orange-400 animate-ping opacity-75 pointer-events-none" />
+                  <span className="absolute -inset-1.5 rounded-full border-2 border-orange-400 animate-ping opacity-75 pointer-events-none" />
                 )}
 
-                <div
-                  className={`p-1 rounded-full ${
-                    isActive ? 'bg-white text-[#FF6B00]' : 'bg-white/20 text-white'
-                  }`}
-                >
-                  <Icon className="w-3.5 h-3.5" />
-                </div>
-
-                <span className="text-[11px] font-black tracking-tight whitespace-nowrap pr-0.5">
-                  {lang === 'ne' ? ch.nameNe : ch.nameEn}
-                </span>
+                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
             </div>
           );
         })}
 
-        {/* Subtle Bottom Caption */}
+        {/* Subtle Bottom Instruction */}
         <div className="absolute bottom-2.5 inset-x-3 flex items-center justify-between pointer-events-none">
           <div className="text-left text-white max-w-sm">
             <p className="text-[11px] font-bold text-amber-300 drop-shadow line-clamp-1">
               {lang === 'ne'
-                ? '👆 कुनै पनि पेशामा ट्याप गर्नुहोस् — सिधै त्यो दृश्य खुल्नेछ'
-                : '👆 Tap any trade button above to seek and play that segment'}
+                ? '👆 भिडियोमा भएका आइकनहरू थिचेर सम्बन्धित काम हेर्नुहोस्'
+                : '👆 Click the icons on the video to inspect each trade'}
             </p>
           </div>
         </div>
