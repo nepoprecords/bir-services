@@ -87,11 +87,18 @@ export const StepPhoneOtp: React.FC<StepPhoneOtpProps> = ({
             required
             maxLength={10}
             value={phone}
-            onChange={(e) => onChangePhone(e.target.value)}
+            onChange={(e) => onChangePhone(e.target.value.replace(/\D/g, ''))}
             placeholder="98XXXXXXXX"
             className="w-full px-3 py-3 rounded-r-2xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 text-sm font-bold font-mono tracking-wider focus:outline-none focus:border-[#FF6B00] transition-colors"
           />
         </div>
+        {phone.length >= 2 && !/^(98|97|96)/.test(phone) && (
+          <span className="text-[11px] font-bold text-rose-500 mt-1 block">
+            {lang === 'ne'
+              ? 'नेपाली मोबाइल नम्बर ९८, ९७ वा ९६ बाट सुरु हुनुपर्छ।'
+              : 'Nepali mobile must start with 98, 97, or 96.'}
+          </span>
+        )}
       </div>
 
       {/* Instant OTP Simulation */}
@@ -130,7 +137,7 @@ export const StepPhoneOtp: React.FC<StepPhoneOtpProps> = ({
           variant="orange"
           size="lg"
           fullWidth
-          disabled={!fullName.trim() || phone.length < 8 || isVerifying}
+          disabled={!fullName.trim() || !/^(98|97|96)\d{8}$/.test(phone) || isVerifying}
           onPressSound={onPlayClick}
           icon={<Sparkles className="w-4 h-4 text-yellow-300 animate-spin" />}
         >

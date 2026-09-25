@@ -18,6 +18,7 @@ interface HeaderProps {
   isMobileFrame: boolean;
   onToggleFrame: () => void;
   onOpenOnboard: () => void;
+  onOpenLogin: () => void;
   onOpenAdmin: () => void;
   onPlayClick: () => void;
 }
@@ -32,6 +33,7 @@ export const Header: React.FC<HeaderProps> = ({
   isMobileFrame,
   onToggleFrame,
   onOpenOnboard,
+  onOpenLogin,
   onOpenAdmin,
   onPlayClick,
 }) => {
@@ -72,7 +74,7 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Subtle City Tag on Desktop */}
             <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 text-[10px] font-bold text-amber-600 dark:text-amber-300">
               <MapPin className="w-2.5 h-2.5 text-[#FF6B00]" />
-              विराटनगर (Biratnagar)
+              {lang === 'ne' ? 'पूर्व नेपाल (मोरङ • सुनसरी • झापा)' : 'East Nepal (Morang • Sunsari • Jhapa)'}
             </span>
           </div>
         </a>
@@ -103,6 +105,19 @@ export const Header: React.FC<HeaderProps> = ({
           >
             {t.nav.stories}
           </a>
+
+          {/* Dai Login trigger */}
+          {!confirmedUser && (
+            <button
+              onClick={() => {
+                onPlayClick();
+                onOpenLogin();
+              }}
+              className="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-[#FF6B00] transition-colors border-l border-slate-200 dark:border-slate-800 pl-4"
+            >
+              {t.nav.daiStatus}
+            </button>
+          )}
         </nav>
 
         {/* Right Controls: Clean, spacious, uncrowded */}

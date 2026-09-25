@@ -14,6 +14,7 @@ import { Footer } from './components/layout/Footer';
 import { BottomDock } from './components/layout/BottomDock';
 import { OnboardingModal } from './components/onboarding/OnboardingModal';
 import { BookingModal } from './components/booking/BookingModal';
+import { DaiLoginModal } from './components/auth/DaiLoginModal';
 import { AdminLeadsDrawer } from './components/admin/AdminLeadsDrawer';
 import { Wifi, BatteryMedium, Signal } from 'lucide-react';
 
@@ -31,6 +32,7 @@ export function App() {
   } = useSoundEffects();
 
   const [isOnboardOpen, setIsOnboardOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [bookingServiceId, setBookingServiceId] = useState<string | null>(null);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
@@ -86,6 +88,15 @@ export function App() {
     setIsOnboardOpen(false);
   };
 
+  const handleOpenLogin = () => {
+    playPop();
+    setIsLoginOpen(true);
+  };
+
+  const handleCloseLogin = () => {
+    setIsLoginOpen(false);
+  };
+
   const handleOpenBooking = (serviceId?: string) => {
     playPop();
     setBookingServiceId(serviceId || null);
@@ -109,6 +120,7 @@ export function App() {
         isMobileFrame={isMobileFrame}
         onToggleFrame={() => setIsMobileFrame((prev) => !prev)}
         onOpenOnboard={handleOpenOnboard}
+        onOpenLogin={handleOpenLogin}
         onOpenAdmin={() => setIsAdminOpen(true)}
         onPlayClick={playClick}
       />
@@ -187,6 +199,19 @@ export function App() {
         onPlayClick={playClick}
         onPlaySuccess={playSuccess}
         onPlayPop={playPop}
+      />
+
+      {/* Dai Login Modal */}
+      <DaiLoginModal
+        isOpen={isLoginOpen}
+        onClose={handleCloseLogin}
+        lang={lang}
+        onOpenSignup={() => {
+          setIsLoginOpen(false);
+          handleOpenOnboard();
+        }}
+        onPlayClick={playClick}
+        onPlaySuccess={playSuccess}
       />
 
       {/* Admin Leads Drawer for viewing registered providers & CSV export */}

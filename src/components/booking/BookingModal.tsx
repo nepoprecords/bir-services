@@ -147,21 +147,25 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
   if (!isOpen) return null;
 
-  const currentService =
-    SERVICES_LIST.find((s) => s.id === selectedServiceId) || SERVICES_LIST[0];
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!phone || phone.length < 7) {
-      alert(lang === 'ne' ? 'कृपया मान्य मोबाइल नम्बर राख्नुहोस्' : 'Please provide a valid phone number');
+    if (!/^(98|97|96)\d{8}$/.test(phone.trim())) {
+      alert(
+        lang === 'ne'
+          ? 'कृपया १० अङ्कको मान्य नेपाली मोबाइल नम्बर (९८, ९७ वा ९६ बाट सुरु भएको) राख्नुहोस्।'
+          : 'Please provide a valid 10-digit Nepali mobile number starting with 98, 97, or 96.'
+      );
       return;
     }
 
     onPlayClick();
     setIsSubmitting(true);
 
+    const currentService =
+      SERVICES_LIST.find((s) => s.id === selectedServiceId) || SERVICES_LIST[0];
+
     const result = await submitCustomerBooking({
-      customer_name: fullName.trim() || (lang === 'ne' ? 'विराटनगर ग्राहक' : 'Biratnagar Customer'),
+      customer_name: fullName.trim() || (lang === 'ne' ? 'पूर्व नेपाल ग्राहक' : 'East Nepal Customer'),
       phone: phone.trim(),
       service_id: currentService.id,
       service_name: lang === 'ne' ? currentService.nameNe : currentService.nameEn,
@@ -382,12 +386,20 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     <input
                       type="tel"
                       required
+                      maxLength={10}
                       value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
+                      onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
                       placeholder="98XXXXXXXX"
                       className="w-full pl-9 pr-3 py-2.5 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#FF6B00] font-mono"
                     />
                   </div>
+                  {phone.length >= 2 && !/^(98|97|96)/.test(phone) && (
+                    <span className="text-[11px] font-bold text-rose-500 mt-1 block">
+                      {lang === 'ne'
+                        ? 'नेपाली मोबाइल नम्बर ९८, ९७ वा ९६ बाट सुरु हुनुपर्छ।'
+                        : 'Nepali mobile must start with 98, 97, or 96.'}
+                    </span>
+                  )}
                 </div>
               </div>
 
