@@ -89,15 +89,28 @@ const SERVICES_LIST: ServiceOption[] = [
   },
 ];
 
-const BIRATNAGAR_HUBS = [
-  { id: 'bargachhi', nameNe: 'बरगाछी (Bargachhi)' },
-  { id: 'roadshesh', nameNe: 'रोडशेष (Roadshesh)' },
-  { id: 'traffic_chowk', nameNe: 'ट्राफिक चोक (Traffic Chowk)' },
-  { id: 'main_road', nameNe: 'मेन रोड (Main Road)' },
-  { id: 'kanchanbari', nameNe: 'कञ्चनबारी (Kanchanbari)' },
-  { id: 'tintoliya', nameNe: 'टिनटोलिया (Tintoliya)' },
-  { id: 'duhabi', nameNe: 'दुहबी (Duhabi Highway)' },
-  { id: 'rani_customs', nameNe: 'रानी भन्सार (Rani Customs)' },
+const EAST_NEPAL_HUBS = [
+  // मोरङ (Morang)
+  { id: 'brt_roadcess', nameNe: 'विराटनगर - रोडशेष / मेन रोड (Biratnagar, Morang)' },
+  { id: 'brt_bargachhi', nameNe: 'विराटनगर - बरगाछी / कञ्चनबारी (Biratnagar, Morang)' },
+  { id: 'brt_traffic', nameNe: 'विराटनगर - ट्राफिक चोक / रानी (Biratnagar, Morang)' },
+  { id: 'urlabari', nameNe: 'उर्लाबारी बजार (Urlabari, Morang)' },
+  { id: 'belbari_pathari', nameNe: 'बेलबारी / पथरी (Belbari / Pathari, Morang)' },
+  { id: 'rangeli', nameNe: 'रंगेली / कटहरी (Rangeli / Katahari, Morang)' },
+
+  // सुनसरी (Sunsari)
+  { id: 'itahari_main', nameNe: 'इटहरी मेन चोक / तरहरा (Itahari, Sunsari)' },
+  { id: 'dharan_bhanu', nameNe: 'धरान - भानुचोक / घोपा क्याम्प (Dharan, Sunsari)' },
+  { id: 'dharan_chhata', nameNe: 'धरान - छाता चोक / चतरा लाइन (Dharan, Sunsari)' },
+  { id: 'inaruwa', nameNe: 'इनरुवा बजार (Inaruwa, Sunsari)' },
+  { id: 'duhabi', nameNe: 'दुहबी औद्योगिक कोरिडोर (Duhabi, Sunsari)' },
+
+  // झापा (Jhapa)
+  { id: 'birtamod_mukti', nameNe: 'बिर्तामोड - मुक्ति चोक / चारपाने (Birtamod, Jhapa)' },
+  { id: 'damak_chowk', nameNe: 'दमक - मुख्य चोक / बेलडाँगी (Damak, Jhapa)' },
+  { id: 'bhadrapur', nameNe: 'भद्रपुर / चन्द्रगढी विमानस्थल (Bhadrapur, Jhapa)' },
+  { id: 'kakarbhitta', nameNe: 'काँकडभिट्टा सीमाना / धुलाबारी (Kakarbhitta, Jhapa)' },
+  { id: 'surunga', nameNe: 'सुरुङ्गा (Surunga, Jhapa)' },
 ];
 
 export const BookingModal: React.FC<BookingModalProps> = ({
@@ -282,12 +295,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               </div>
               <div>
                 <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white">
-                  {lang === 'ne' ? 'विराटनगर बीर दाइ बुक गर्नुहोस्' : 'Book a Local Bir Dai'}
+                  {lang === 'ne' ? 'पूर्व नेपाल बीर दाइ बुक गर्नुहोस्' : 'Book an East Nepal Bir Dai'}
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
                   {lang === 'ne'
-                    ? '०% बिचौलिया कमिसन • सिधै दाइको हातमा भुक्तानी • १५ मिनेटमा रेस्पोन्स'
-                    : 'Zero broker markup • Pay technician direct • 15 min response'}
+                    ? 'मोरङ • सुनसरी • झापा • ०% बिचौलिया कमिसन • १५-२५ मिनेटमा रेस्पोन्स'
+                    : 'Morang • Sunsari • Jhapa • Zero broker markup • 15 min response'}
                 </p>
               </div>
             </div>
@@ -378,10 +391,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 </div>
               </div>
 
-              {/* 3. Location Hub in Biratnagar */}
+              {/* 3. Location Hub in East Nepal */}
               <div>
                 <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">
-                  {lang === 'ne' ? 'विराटनगरको कुन क्षेत्रमा सेवा चाहिन्छ?' : 'Location in Biratnagar:'}
+                  {lang === 'ne' ? 'कुन सहर / क्षेत्रमा सेवा चाहिन्छ? (मोरङ, सुनसरी, झापा)' : 'Select City & Area (Morang, Sunsari, Jhapa):'}
                 </label>
                 <div className="relative">
                   <MapPin className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" />
@@ -390,7 +403,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     onChange={(e) => setHub(e.target.value)}
                     className="w-full pl-9 pr-8 py-2.5 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#FF6B00] appearance-none"
                   >
-                    {BIRATNAGAR_HUBS.map((h) => (
+                    {EAST_NEPAL_HUBS.map((h) => (
                       <option key={h.id} value={h.nameNe}>
                         {h.nameNe}
                       </option>

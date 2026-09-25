@@ -54,12 +54,12 @@ export const NeighborlyServices: React.FC<NeighborlyServicesProps> = ({
       id: 'ac_cooler',
       titleNe: 'AC, कुलर & फ्रिज मर्मत',
       titleEn: 'AC, Cooler & Refrigerator Care',
-      descNe: 'विराटनगरको चर्को गर्मीमा ग्यास लिक, कुलिङ नहुने वा कम्प्रेशर समस्याको तत्काल समाधान।',
-      descEn: 'Instant diagnosis for gas leaks, zero cooling, or compressor failure in Biratnagar heat.',
+      descNe: 'मोरङ, सुनसरी र झापाको चर्को गर्मीमा ग्यास लिक, कुलिङ नहुने वा कम्प्रेशर समस्याको तत्काल समाधान।',
+      descEn: 'Instant diagnosis for gas leaks, zero cooling, or compressor failure in the East Nepal summer heat.',
       icon: <Snowflake className="w-5 h-5 text-cyan-500" />,
       estPriceNPR: 'रू ७५० देखि',
       timeEstimate: '१५-२५ मिनेट',
-      popularIn: 'बरगाछी, ट्राफिक चोक, मेन रोड',
+      popularIn: 'विराटनगर, इटहरी, दमक, इनरुवा',
       badge: '🔥 उच्च माग (High Demand)',
       featuresNe: ['ग्यास रिफिल & प्रेसर जाँच', 'कम्प्रेशर & मोटर मर्मत', 'सिजनल सर्भिसिङ'],
       featuresEn: ['Gas Refill & Leak Detection', 'Compressor Diagnostics', 'Full Seasonal Wash'],
@@ -73,7 +73,7 @@ export const NeighborlyServices: React.FC<NeighborlyServicesProps> = ({
       icon: <Zap className="w-5 h-5 text-amber-500" />,
       estPriceNPR: 'रू ५०० देखि',
       timeEstimate: '२० मिनेट',
-      popularIn: 'रोडशेष, दुहबी, टिनटोलिया',
+      popularIn: 'धरान, बिर्तामोड, दुहबी, विराटनगर',
       badge: '⚡️ सुपर फास्ट',
       featuresNe: ['मोटर रिवाइन्डिङ', 'MCB ट्रिपिङ & शट फिक्स', 'इनभर्टर जडान'],
       featuresEn: ['Motor Rewinding', 'MCB Tripping Fix', 'Inverter Wiring'],
@@ -87,7 +87,7 @@ export const NeighborlyServices: React.FC<NeighborlyServicesProps> = ({
       icon: <Wrench className="w-5 h-5 text-blue-500" />,
       estPriceNPR: 'रू ४५० देखि',
       timeEstimate: '२५ मिनेट',
-      popularIn: 'कञ्चनबारी, मेन रोड, रानी',
+      popularIn: 'इटहरी, कञ्चनबारी, भद्रपुर, उर्लाबारी',
       featuresNe: ['पाइप लिकेज सिपिङ चेक', 'ट्यांकी अटो-कट सेन्सर', 'नयाँ सेनेटरी फिटिङ'],
       featuresEn: ['Concealed Leak Test', 'Tank Auto-cut Sensor', 'Sanitary Installations'],
     },
@@ -95,12 +95,12 @@ export const NeighborlyServices: React.FC<NeighborlyServicesProps> = ({
       id: 'roadside_bike',
       titleNe: 'अन-कल बाइक & अटो मेकानिक',
       titleEn: 'On-Call Highway Bike Roadside',
-      descNe: 'कोशी राजमार्ग र रानी भन्सार क्षेत्रमा बाटोमै पञ्चर, स्टार्ट नहुने वा ब्रेक जाम समस्या।',
-      descEn: 'Rapid mobile mechanic for puncture, chain drop, or dead battery on Koshi Highway.',
+      descNe: 'कोशी राजमार्ग र महेन्द्र हाइवेमा बाटोमै पञ्चर, स्टार्ट नहुने वा ब्रेक जाम समस्या।',
+      descEn: 'Rapid mobile mechanic for puncture, chain drop, or dead battery along Koshi & Mahendra Highway.',
       icon: <Bike className="w-5 h-5 text-rose-500" />,
       estPriceNPR: 'रू ३५० देखि',
       timeEstimate: '१५ मिनेट',
-      popularIn: 'कोशी राजमार्ग, रानी भन्सार',
+      popularIn: 'कोशी हाइवे, महेन्द्र हाइवे (इटहरी-बिर्तामोड)',
       featuresNe: ['ट्यूबलेस पञ्चर तत्काल', 'ब्याट्री जम्प स्टार्ट', 'अन-स्पट क्लच/चेन मर्मत'],
       featuresEn: ['Emergency Tubeless Patch', 'Battery Jump-start', 'On-spot Cable Repair'],
     },
@@ -113,7 +113,7 @@ export const NeighborlyServices: React.FC<NeighborlyServicesProps> = ({
       icon: <Hammer className="w-5 h-5 text-amber-600" />,
       estPriceNPR: 'रू ५५० देखि',
       timeEstimate: '३० मिनेट',
-      popularIn: 'मिल एरिया, बरगाछी, इटहरी',
+      popularIn: 'दमक, धरान, बेलबारी, विराटनगर',
       featuresNe: ['सटर लक & कब्जा रिपेयर', 'प्लाईवुड फर्निचर', 'झ्याल ढोका फिटिङ'],
       featuresEn: ['Shutter Alignment', 'Plywood Fixes', 'Precision Window Fitting'],
     },
@@ -126,7 +126,7 @@ export const NeighborlyServices: React.FC<NeighborlyServicesProps> = ({
       icon: <Paintbrush className="w-5 h-5 text-purple-500" />,
       estPriceNPR: 'रू ८०० देखि',
       timeEstimate: 'आजै सुरु',
-      popularIn: 'जलजला, कञ्चनबारी, विराटनगर',
+      popularIn: 'बिर्तामोड, इटहरी, विराटनगर, धरान',
       featuresNe: ['ओस रोक्ने वाटरप्रूफिङ', 'वाल पुटिङ & फिनिसिङ', 'प्रिमियम कलर रोलिङ'],
       featuresEn: ['Damp Proof Coating', 'Wall Putty Surface Prep', 'Premium Emulsion'],
     },
@@ -149,12 +149,12 @@ export const NeighborlyServices: React.FC<NeighborlyServicesProps> = ({
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 dark:text-white tracking-tight leading-snug">
             {lang === 'ne' ? (
               <>
-                विराटनगरको हरेक कुनामा —{' '}
+                पूर्व नेपाल (मोरङ • सुनसरी • झापा) —{' '}
                 <span className="text-[#FF6B00]">प्रमाणित सुपर-दाई</span> तपाईंको ढोकामा!
               </>
             ) : (
               <>
-                Every corner of Biratnagar —{' '}
+                Across East Nepal (Morang • Sunsari • Jhapa) —{' '}
                 <span className="text-[#FF6B00]">Certified Super-Dais</span> at your doorstep!
               </>
             )}
@@ -162,8 +162,8 @@ export const NeighborlyServices: React.FC<NeighborlyServicesProps> = ({
 
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-2 font-medium">
             {lang === 'ne'
-              ? 'सामान्य मर्मत देखि आपतकालीन सेवा सम्म। निश्चित दर, १५-२५ मिनेटमै विराटनगरका दक्ष दाइहरू तपाईंको घरमा।'
-              : 'From routine maintenance to urgent repairs. Transparent rates, verified technicians arriving in 15-25 mins across Biratnagar.'}
+              ? 'सामान्य मर्मत देखि आपतकालीन सेवा सम्म। निश्चित दर, १५-२५ मिनेटमै मोरङ, सुनसरी र झापाका दक्ष दाइहरू तपाईंको घरमा।'
+              : 'From routine maintenance to urgent repairs. Transparent rates, verified technicians arriving in 15-25 mins across Morang, Sunsari & Jhapa.'}
           </p>
         </div>
 

@@ -65,7 +65,7 @@ export async function submitProviderApplication(
     experience_years: data.experienceYears,
     has_tools: data.hasOwnTools,
     has_vehicle: data.hasVehicle,
-    city: data.city || 'Biratnagar',
+    city: data.city || 'East Nepal (Morang, Sunsari, Jhapa)',
     hubs: data.hubs,
     pass_id: passId,
     status: 'verified',
@@ -112,7 +112,7 @@ export function exportProvidersToCSV(): void {
     return;
   }
 
-  const headers = ['Full Name', 'Phone', 'Trade', 'Experience (Years)', 'Has Tools', 'Vehicle', 'City', 'Hubs', 'Pass ID', 'Registered At'];
+  const headers = ['Full Name', 'Phone', 'Trade', 'Experience (Years)', 'Has Tools', 'Vehicle', 'City / Region', 'Hubs', 'Pass ID', 'Registered At'];
   const rows = records.map((r) => [
     `"${r.full_name}"`,
     `"${r.phone}"`,
@@ -130,7 +130,7 @@ export function exportProvidersToCSV(): void {
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement('a');
   link.setAttribute('href', encodedUri);
-  link.setAttribute('download', `bir_providers_biratnagar_${new Date().toISOString().slice(0, 10)}.csv`);
+  link.setAttribute('download', `bir_providers_east_nepal_${new Date().toISOString().slice(0, 10)}.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);

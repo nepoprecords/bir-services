@@ -1,5 +1,5 @@
-import React from 'react';
-import { MapPin, Zap, Database, Wrench } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { MapPin, Zap, Database, Wrench, CheckCircle2 } from 'lucide-react';
 import { Language } from '../../types';
 import { translations } from '../../i18n/translations';
 import { SoundToggle } from '../ui/SoundToggle';
@@ -36,6 +36,23 @@ export const Header: React.FC<HeaderProps> = ({
   onPlayClick,
 }) => {
   const t = translations[lang];
+  const [confirmedUser, setConfirmedUser] = useState<{ fullName?: string; passId?: string } | null>(null);
+
+  useEffect(() => {
+    const checkConfirmed = () => {
+      try {
+        const raw = localStorage.getItem('bir_provider_confirmed');
+        if (raw) {
+          setConfirmedUser(JSON.parse(raw));
+        }
+      } catch {
+        // ignore
+      }
+    };
+    checkConfirmed();
+    window.addEventListener('storage', checkConfirmed);
+    return () => window.removeEventListener('storage', checkConfirmed);
+  }, []);
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white/90 dark:bg-[#0B0F19]/90 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800/80 px-4 py-2.5 transition-colors duration-300">
@@ -107,17 +124,33 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Sound Toggle (Clean Icon) */}
           <SoundToggle muted={muted} onToggle={onToggleSound} />
 
-          {/* Desktop Quick CTA */}
-          <button
-            onClick={() => {
-              onPlayClick();
-              onOpenOnboard();
-            }}
-            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#FF6B00] hover:bg-[#FF7A1A] text-white text-xs font-black shadow-md shadow-orange-950/20 transition-all active:scale-95 ml-1"
-          >
-            <Zap className="w-3.5 h-3.5 fill-white" />
-            <span>{t.nav.joinCta}</span>
-          </button>
+          {/* Desktop Quick CTA or Confirmed Dai Badge */}
+          {confirmedUser ? (
+            <button
+              onClick={() => {
+                onPlayClick();
+                onOpenOnboard();
+              }}
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black shadow-md shadow-emerald-950/20 transition-all active:scale-95 ml-1"
+              title="तपाईंको प्रमाणित परिचयपत्र हेर्नुहोस् (View Verified Pass)"
+            >
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-200" />
+              <span className="truncate max-w-[120px]">
+                {confirmedUser.fullName ? `${confirmedUser.fullName.split(' ')[0]} दाई` : 'प्रमाणित दाई'}
+              </span>
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                onPlayClick();
+                onOpenOnboard();
+              }}
+              className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#FF6B00] hover:bg-[#FF7A1A] text-white text-xs font-black shadow-md shadow-orange-950/20 transition-all active:scale-95 ml-1"
+            >
+              <Zap className="w-3.5 h-3.5 fill-white" />
+              <span>{t.nav.joinCta}</span>
+            </button>
+          )}
         </div>
       </div>
     </header>

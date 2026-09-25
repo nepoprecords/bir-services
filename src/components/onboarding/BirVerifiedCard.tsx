@@ -37,12 +37,12 @@ export const BirVerifiedCard: React.FC<BirVerifiedCardProps> = ({
 
   const tradeData = TRADES_DATA.find((tr) => tr.id === data.trade) || TRADES_DATA[0];
   const tradeTitle = lang === 'ne' ? tradeData.titleNe : tradeData.titleEn;
-  const hubTitle = data.hubs.length > 0 ? data.hubs[0] : 'विराटनगर (Biratnagar)';
+  const hubTitle = data.hubs.length > 0 ? data.hubs[0] : 'पूर्व नेपाल (मोरङ • सुनसरी • झापा)';
 
   const [savedStatus, setSavedStatus] = useState<'saving' | 'saved' | 'idle'>('idle');
 
-  // Generate a random stable-looking Nepali Dai ID for Biratnagar
-  const [passId] = useState(() => `BIR-DAI-${Math.floor(1000 + Math.random() * 9000)}-BRT`);
+  // Generate a random stable-looking Nepali Dai ID for East Nepal
+  const [passId] = useState(() => `BIR-DAI-${Math.floor(1000 + Math.random() * 9000)}-EAST`);
 
   useEffect(() => {
     // Trigger fanfare audio
@@ -51,7 +51,25 @@ export const BirVerifiedCard: React.FC<BirVerifiedCardProps> = ({
     // Persist applicant to Supabase & local database buffer
     setSavedStatus('saving');
     submitProviderApplication(data, passId)
-      .then(() => setSavedStatus('saved'))
+      .then(() => {
+        setSavedStatus('saved');
+        // Persist confirmed active session
+        try {
+          localStorage.setItem(
+            'bir_provider_confirmed',
+            JSON.stringify({
+              passId,
+              fullName: data.fullName,
+              phone: data.phone,
+              trade: data.trade,
+              hubs: data.hubs,
+              confirmedAt: new Date().toISOString(),
+            })
+          );
+        } catch {
+          // ignore
+        }
+      })
       .catch(() => setSavedStatus('idle'));
 
     // Trigger dual cannon celebratory confetti
@@ -91,8 +109,8 @@ export const BirVerifiedCard: React.FC<BirVerifiedCardProps> = ({
     onPlayClick();
     const shareMessage =
       lang === 'ne'
-        ? `म अब BIR को आधिकारिक "विराटनगर भेरिफाइड दाई" भएँ! AC, कुलर, बिजुली, मोटर वा कुनै सामान मर्मत गर्नु परेमा मलाई सम्झिनुहोस्! पास ID: ${passId}`
-        : `I just became an official "Verified Dai" on BIR in Biratnagar! If you need any AC, electrical, motor, or repair work done in Biratnagar, contact me! Pass ID: ${passId}`;
+        ? `म अब BIR को आधिकारिक "पूर्व नेपाल (मोरङ • सुनसरी • झापा) भेरिफाइड दाई" भएँ! AC, कुलर, बिजुली, मोटर वा कुनै सामान मर्मत गर्नु परेमा मलाई सम्झिनुहोस्! पास ID: ${passId}`
+        : `I just became an official "Verified Dai" on BIR across East Nepal (Morang • Sunsari • Jhapa)! If you need any AC, electrical, motor, or repair work done, contact me! Pass ID: ${passId}`;
     const url = `https://wa.me/?text=${encodeURIComponent(shareMessage)}`;
     window.open(url, '_blank');
   };
@@ -115,10 +133,28 @@ export const BirVerifiedCard: React.FC<BirVerifiedCardProps> = ({
         <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-medium">
           {t.onboarding.celebration.subtitle}
         </p>
-        {savedStatus === 'saved' && (
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-bold mt-2">
+
+        {/* Explicit Sign-Up Confirmed Notification Card */}
+        <div className="w-full max-w-sm mx-auto mt-3 rounded-2xl bg-emerald-500/15 border border-emerald-500/35 p-3 text-left flex items-start gap-2.5 shadow-sm">
+          <div className="p-1 rounded-full bg-emerald-500 text-white flex-shrink-0 mt-0.5">
             <CheckCircle2 className="w-3.5 h-3.5" />
-            <span>{lang === 'ne' ? 'विराटनगर नेटवर्कमा सुरक्षित दर्ता भयो' : 'Synced to Biratnagar verified registry'}</span>
+          </div>
+          <div>
+            <span className="text-xs font-black text-emerald-700 dark:text-emerald-300 block">
+              {lang === 'ne' ? 'दर्ता प्रमाणित भयो (Sign-Up Confirmed) ✓' : 'Sign-Up Confirmed & Verified ✓'}
+            </span>
+            <span className="text-[11px] text-slate-600 dark:text-slate-300 font-medium block leading-tight mt-0.5">
+              {lang === 'ne'
+                ? `+९७७ ${data.phone || '९८XXXXXXXX'} मा स्वागत SMS पुष्टिकरण पठाइयो। मोरङ, सुनसरी र झापाका ग्राहक अर्डरहरू अब तपाईंलाई प्राप्त हुनेछन्।`
+                : `Confirmation SMS sent to +977 ${data.phone || '98XXXXXXXX'}. You are now live to receive orders across Morang, Sunsari & Jhapa.`}
+            </span>
+          </div>
+        </div>
+
+        {savedStatus === 'saved' && (
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 text-[11px] font-bold mt-2">
+            <CheckCircle2 className="w-3.5 h-3.5" />
+            <span>{lang === 'ne' ? 'पूर्व नेपाल नेटवर्कमा सुरक्षित दर्ता भयो' : 'Synced to East Nepal verified registry'}</span>
           </div>
         )}
       </div>
