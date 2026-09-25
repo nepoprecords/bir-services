@@ -20,7 +20,7 @@ import { TactileButton } from '../ui/TactileButton';
 
 interface NeighborlyServicesProps {
   lang: Language;
-  onOpenOnboard: () => void;
+  onOpenBooking: (serviceId?: string) => void;
   onPlayClick: () => void;
   onPlayPop: () => void;
 }
@@ -42,7 +42,7 @@ interface ServiceCardData {
 
 export const NeighborlyServices: React.FC<NeighborlyServicesProps> = ({
   lang,
-  onOpenOnboard,
+  onOpenBooking,
   onPlayClick,
   onPlayPop,
 }) => {
@@ -223,7 +223,7 @@ export const NeighborlyServices: React.FC<NeighborlyServicesProps> = ({
                   variant="orange"
                   size="sm"
                   onPressSound={onPlayClick}
-                  onClick={onOpenOnboard}
+                  onClick={() => onOpenBooking(srv.id)}
                   icon={<ArrowRight className="w-3.5 h-3.5" />}
                 >
                   {lang === 'ne' ? 'दाई बुक गर्नुस्' : 'Book Dai'}
@@ -255,7 +255,7 @@ export const NeighborlyServices: React.FC<NeighborlyServicesProps> = ({
             variant="dark"
             size="md"
             onPressSound={onPlayClick}
-            onClick={onOpenOnboard}
+            onClick={() => onOpenBooking()}
             icon={<PhoneCall className="w-4 h-4 text-emerald-400" />}
           >
             {lang === 'ne' ? 'इमर्जेन्सी कल: +९७७ ९८००००००००' : 'Emergency Helpline'}

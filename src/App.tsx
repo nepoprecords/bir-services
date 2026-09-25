@@ -13,6 +13,7 @@ import { DaiStoriesSection } from './components/stories/DaiStoriesSection';
 import { Footer } from './components/layout/Footer';
 import { BottomDock } from './components/layout/BottomDock';
 import { OnboardingModal } from './components/onboarding/OnboardingModal';
+import { BookingModal } from './components/booking/BookingModal';
 import { AdminLeadsDrawer } from './components/admin/AdminLeadsDrawer';
 import { Wifi, BatteryMedium, Signal } from 'lucide-react';
 
@@ -30,6 +31,8 @@ export function App() {
   } = useSoundEffects();
 
   const [isOnboardOpen, setIsOnboardOpen] = useState(false);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [bookingServiceId, setBookingServiceId] = useState<string | null>(null);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isMobileFrame, setIsMobileFrame] = useState(false);
 
@@ -83,6 +86,16 @@ export function App() {
     setIsOnboardOpen(false);
   };
 
+  const handleOpenBooking = (serviceId?: string) => {
+    playPop();
+    setBookingServiceId(serviceId || null);
+    setIsBookingOpen(true);
+  };
+
+  const handleCloseBooking = () => {
+    setIsBookingOpen(false);
+  };
+
   const appContent = (
     <div className="min-h-screen bg-[#FAF9F6] dark:bg-[#0B0F19] text-slate-900 dark:text-white flex flex-col relative transition-colors duration-300 selection:bg-[#FF6B00] selection:text-white">
       {/* Header */}
@@ -116,7 +129,7 @@ export function App() {
         {/* 2. Neighborly / Frontdoor Home Services */}
         <NeighborlyServices
           lang={lang}
-          onOpenOnboard={handleOpenOnboard}
+          onOpenBooking={handleOpenBooking}
           onPlayClick={playClick}
           onPlayPop={playPop}
         />
@@ -153,7 +166,7 @@ export function App() {
         onPlayClick={playClick}
       />
 
-      {/* 4-Step Gamified Onboarding Modal */}
+      {/* 4-Step Gamified Onboarding Modal (For Dai Providers) */}
       <OnboardingModal
         isOpen={isOnboardOpen}
         onClose={handleCloseOnboard}
@@ -163,6 +176,17 @@ export function App() {
         onPlayRatchet={playRatchet}
         onPlaySuccess={playSuccess}
         onPlayFanfare={playFanfare}
+      />
+
+      {/* Dedicated Customer Service Booking Modal (For Homeowners) */}
+      <BookingModal
+        isOpen={isBookingOpen}
+        onClose={handleCloseBooking}
+        lang={lang}
+        initialServiceId={bookingServiceId}
+        onPlayClick={playClick}
+        onPlaySuccess={playSuccess}
+        onPlayPop={playPop}
       />
 
       {/* Admin Leads Drawer for viewing registered providers & CSV export */}
